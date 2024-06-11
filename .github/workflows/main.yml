@@ -1,0 +1,50 @@
+name: Cypress Tests
+
+on: [push, pull_request]
+
+jobs:
+  cypress-run:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [18, 21]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Install Cypress
+      run: npm install cypress
+
+    - name: Start the application
+      run: npm start &
+      env:
+        CI: true
+
+    - name: Wait for the app to be ready
+      run: npx wait-on http://localhost:3000
+
+    - name: Run Cypress tests with debug logs
+      run: npx cypress run --headed --browser edge
+
+    - name: Upload Cypress artifacts
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: cypress-artifacts
+        path: |
+          cypress/screenshots
+          cypress/videos
+          cypress/results
+env:
+  CYPRESS_baseUrl: 'http://localhost:59428/__/#/specs'  # Ensure this matches your local setup
+  CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}  # Ensure this secret is set in your GitHub repository
