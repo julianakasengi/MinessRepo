@@ -20,8 +20,15 @@ describe("Meter Management", () => {
       cy.contains("Meter barcode").click();
       cy.get('#horizontal_login_value').click().type("NGI-MOCK-QA2122");
       cy.get('.button-general').click();
-      cy.get('.jss16 > :nth-child(1)').click({multiple:true});
-      cy.get('.jss25 > .ant-select > .ant-select-selector').click();
-      
-    })
+      cy.xpath("//tbody[@class='ant-table-tbody']/tr[1]//img[@src='/static/media/Test.a77e59c0.svg']").click();
+      //cy.get('.ant-select-selection-search-input').click();
+      //cy.get('.jss25 > .ant-select > .ant-select-selector').click();
+      cy.get('.jss33 > .ant-select > .ant-select-selector').click();
+      //cy.get('.ant-select-item-option-content').click({multiple:true});
+     //cy.get("Certified").should("be.visible").click();
+     cy.get(':nth-child(6) > :nth-child(1) > .ant-select-dropdown > :nth-child(1) > .rc-virtual-list > .rc-virtual-list-holder > :nth-child(1) > .rc-virtual-list-holder-inner > .ant-select-item-option-active > .ant-select-item-option-content').click({force:true});
+
+
+
+        })
 })
